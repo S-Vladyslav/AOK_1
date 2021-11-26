@@ -6,9 +6,12 @@ namespace AOK1
     {
         static void Main(string[] args)
         {
-            var num = "218795746123784121283768121212";
+            var num = "2187957461237841212837681212123";
+            var num2 = "";
 
             var bigNum = new BigNumber(num);
+
+            bigNum = -bigNum;
 
             Console.WriteLine(bigNum.GetNumber());
 

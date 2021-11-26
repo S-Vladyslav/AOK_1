@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AOK1
 {
@@ -12,16 +9,23 @@ namespace AOK1
 
         private List<int> _number = new List<int>();
 
+        public bool NegativeSign { get; set; }
+
         private string _numberPiece = "";
 
         public BigNumber(string number)
         {
+            if (char.Equals(number[0], '-'))
+            {
+                NegativeSign = true;
+                number = number.Substring(1);
+            }
             //for (int i = number.Length - 1; i >= 0; i--)
             for (int i = 0; i < number.Length; i++)
             {
                 _numberPiece += number[i];
 
-                if (_numberPiece.Length >= _lenght)
+                if (_numberPiece.Length == _lenght || i == number.Length - 1)
                 {
                     if (int.TryParse(_numberPiece, out int result))
                     {
@@ -40,6 +44,11 @@ namespace AOK1
         {
             var number = "";
 
+            if (NegativeSign == true)
+            {
+                number += "-";
+            }
+
             foreach (var piece in _number)
             {
                 number += piece.ToString();
@@ -51,6 +60,17 @@ namespace AOK1
         public List<int> GetNumberByPieces()
         {
             return _number;
+        }
+
+        public static BigNumber operator + (BigNumber number)
+        {
+            return number;
+        }
+
+        public static BigNumber operator -(BigNumber number)
+        {
+            number.NegativeSign = ! number.NegativeSign;
+            return number;
         }
     }
 }
