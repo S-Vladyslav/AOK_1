@@ -21,20 +21,27 @@ namespace AOK1
                 number = number.Substring(1);
             }
             //for (int i = number.Length - 1; i >= 0; i--)
-            for (int i = 0; i < number.Length; i++)
-            {
-                _numberPiece += number[i];
+            var numCharArray = number.ToCharArray();
+            Array.Reverse(numCharArray);
+            var numberNew = new string(numCharArray);
 
-                if (_numberPiece.Length == _lenght || i == number.Length - 1)
+            for (int i = 0; i < numberNew.Length; i++)
+            {
+                _numberPiece += numberNew[i];
+
+                if (_numberPiece.Length == _lenght || i == numberNew.Length - 1)
                 {
-                    if (int.TryParse(_numberPiece, out int result))
+                    char[] pieceCharArray = _numberPiece.ToCharArray();
+                    Array.Reverse(pieceCharArray);
+
+                    if (int.TryParse(pieceCharArray, out int result))
                     {
                         _number.Add(result);
                         _numberPiece = "";
                     }
                     else
                     {
-                        throw new ArgumentException($"Number {number} is invalid");
+                        throw new ArgumentException($"Number {numberNew} is invalid");
                     }
                 }
             }
@@ -49,9 +56,9 @@ namespace AOK1
                 number += "-";
             }
 
-            foreach (var piece in _number)
+            for (int i = _number.Count - 1; i >= 0; i--)
             {
-                number += piece.ToString();
+                number += Convert.ToString(_number[i]);
             }
 
             return number;
@@ -66,6 +73,11 @@ namespace AOK1
         {
             return number;
         }
+
+        //public static BigNumber operator + (BigNumber num1, BigNumber num2)
+        //{
+        //   // var result = new BigNumber();
+        //}
 
         public static BigNumber operator -(BigNumber number)
         {
