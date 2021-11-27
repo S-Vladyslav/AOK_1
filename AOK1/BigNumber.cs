@@ -14,10 +14,13 @@ namespace AOK1
         public bool NegativeSign { get; private set; }
 
         public string UnsignedRawNum { get; private set; } = "";
+        public string RawNum { get; private set; } = "";
 
 
         public BigNumber(string number)
         {
+            RawNum = number;
+
             if (char.Equals(number[0], '-'))
             {
                 NegativeSign = true;
@@ -83,16 +86,16 @@ namespace AOK1
         {
             var countBig = 0;
             var countSmall = 0;
-            var result = a;
-            var other = b;
+            BigNumber result = new BigNumber(a.RawNum);
+            BigNumber other = new BigNumber(b.RawNum);
 
             if (a.Number.Count < b.Number.Count)
             {
                 countBig = b.Number.Count;
                 countSmall = a.Number.Count;
 
-                result = b;
-                other = a;
+                result = new BigNumber(b.RawNum);
+                other = new BigNumber(a.RawNum);
             }
             else
             {
@@ -140,6 +143,16 @@ namespace AOK1
         {
             number.NegativeSign = !number.NegativeSign;
             return number;
+        }
+
+        public static BigNumber operator -(BigNumber a, BigNumber b)
+        {
+            if (a.NegativeSign = false && b.NegativeSign == true)
+            {
+                return a + (-b);
+            }
+
+            return a + (-b);
         }
 
         public static bool operator <(BigNumber a, BigNumber b)
