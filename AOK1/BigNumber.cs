@@ -13,6 +13,8 @@ namespace AOK1
 
         private string _numberPiece = "";
 
+        public string UnsignedRawNum { get; private set; } = "";
+
         public BigNumber(string number)
         {
             if (char.Equals(number[0], '-'))
@@ -20,7 +22,9 @@ namespace AOK1
                 NegativeSign = true;
                 number = number.Substring(1);
             }
-            //for (int i = number.Length - 1; i >= 0; i--)
+
+            UnsignedRawNum = number;
+
             var numCharArray = number.ToCharArray();
             Array.Reverse(numCharArray);
             var numberNew = new string(numCharArray);
@@ -96,14 +100,31 @@ namespace AOK1
                 return false;
             }
 
-            for (int i = a.Number.Count - 1; i >= 0; i--)
+            if (a.UnsignedRawNum.Length < b.UnsignedRawNum.Length)
             {
-                for (int j = b.Number.Count - 1; j >= 0; j--)
+                return (a.NegativeSign == true && b.NegativeSign == true) ? false : true;
+            }
+            else if (a.UnsignedRawNum.Length > b.UnsignedRawNum.Length)
+            {
+                return (a.NegativeSign == true && b.NegativeSign == true) ? true : false;
+            }
+
+            var count = 0;
+
+            if (a.Number.Count < b.Number.Count)
+            {
+                count = a.Number.Count;
+            }
+            else
+            {
+                count = b.Number.Count;
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                if (a.Number[i] < b.Number[i])
                 {
-                    if (a.Number[i] < b.Number[i])
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
 

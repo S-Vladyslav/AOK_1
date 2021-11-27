@@ -7,12 +7,12 @@ namespace AOK1
         static void Main(string[] args)
         {
             var num = "2187957461237841212837681212123";
-            var num2 = "9764271527815468724827126218746";
+            var num2 = "-97642715278154687248271262";
 
             var bigNum = new BigNumber(num);
             var bigNum2 = new BigNumber(num2);
 
-            bigNum = -bigNum;
+            //bigNum = -bigNum;
 
             //Console.WriteLine(bigNum.GetNumber());
 
@@ -20,7 +20,7 @@ namespace AOK1
             //{
             //    Console.Write($"{piece} ");
             //}
-            Console.WriteLine((bigNum < bigNum2));
+            Console.WriteLine((bigNum > bigNum2));
         }
     }
 }
