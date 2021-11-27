@@ -7,7 +7,7 @@ namespace AOK1
     {
         private const int _lenght = 4; //length of number piece
 
-        private List<int> _number = new List<int>();
+        public List<int> Number { get; private set; } = new List<int>();
 
         public bool NegativeSign { get; set; }
 
@@ -36,7 +36,7 @@ namespace AOK1
 
                     if (int.TryParse(pieceCharArray, out int result))
                     {
-                        _number.Add(result);
+                        Number.Add(result);
                         _numberPiece = "";
                     }
                     else
@@ -56,9 +56,9 @@ namespace AOK1
                 number += "-";
             }
 
-            for (int i = _number.Count - 1; i >= 0; i--)
+            for (int i = Number.Count - 1; i >= 0; i--)
             {
-                number += Convert.ToString(_number[i]);
+                number += Convert.ToString(Number[i]);
             }
 
             return number;
@@ -66,7 +66,7 @@ namespace AOK1
 
         public List<int> GetNumberByPieces()
         {
-            return _number;
+            return Number;
         }
 
         public static BigNumber operator + (BigNumber number)
@@ -83,6 +83,36 @@ namespace AOK1
         {
             number.NegativeSign = ! number.NegativeSign;
             return number;
+        }
+
+        public static bool operator <(BigNumber a, BigNumber b)
+        {
+            if (a.NegativeSign == true && b.NegativeSign == false)
+            {
+                return true;
+            }
+            else if (a.NegativeSign == false && b.NegativeSign == true)
+            {
+                return false;
+            }
+
+            for (int i = a.Number.Count - 1; i >= 0; i--)
+            {
+                for (int j = b.Number.Count - 1; j >= 0; j--)
+                {
+                    if (a.Number[i] < b.Number[i])
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public static bool operator >(BigNumber a, BigNumber b)
+        {
+            return (a < b) ? false : true;
         }
     }
 }
