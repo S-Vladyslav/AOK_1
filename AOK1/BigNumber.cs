@@ -134,7 +134,36 @@ namespace AOK1
 
         public static bool operator >(BigNumber a, BigNumber b)
         {
+            var count = 0;
+
+            if (a.Number.Count < b.Number.Count)
+            {
+                count = a.Number.Count;
+            }
+            else
+            {
+                count = b.Number.Count;
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                if (a.Number[i] == b.Number[i])
+                {
+                    return false;
+                }
+            }
+
             return (a < b) ? false : true;
+        }
+
+        public static bool operator ==(BigNumber a, BigNumber b)
+        {
+            return ((a < b) == false && (a > b) == false) ? true : false;
+        }
+
+        public static bool operator !=(BigNumber a, BigNumber b)
+        {
+            return ((a < b) == false && (a > b) == false) ? false : true;
         }
     }
 }
