@@ -21,6 +21,8 @@ namespace AOK1
             //    Console.Write($"{piece} ");
             //}
             Console.WriteLine((bigNum > bigNum2));
+
+            // TODO == and +
         }
     }
 }

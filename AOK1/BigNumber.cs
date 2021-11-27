@@ -15,6 +15,7 @@ namespace AOK1
 
         public string UnsignedRawNum { get; private set; } = "";
 
+
         public BigNumber(string number)
         {
             if (char.Equals(number[0], '-'))
@@ -85,7 +86,7 @@ namespace AOK1
 
         public static BigNumber operator -(BigNumber number)
         {
-            number.NegativeSign = ! number.NegativeSign;
+            number.NegativeSign = !number.NegativeSign;
             return number;
         }
 
