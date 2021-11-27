@@ -79,10 +79,62 @@ namespace AOK1
             return number;
         }
 
-        //public static BigNumber operator + (BigNumber num1, BigNumber num2)
-        //{
-        //   // var result = new BigNumber();
-        //}
+        public static BigNumber operator +(BigNumber a, BigNumber b)
+        {
+            var countBig = 0;
+            var countSmall = 0;
+            var result = a;
+            var other = b;
+
+            if (a.Number.Count < b.Number.Count)
+            {
+                countBig = b.Number.Count;
+                countSmall = a.Number.Count;
+
+                result = b;
+                other = a;
+            }
+            else
+            {
+                countBig = a.Number.Count;
+                countSmall = b.Number.Count;
+            }
+
+            var piece = "";
+            var pieceForAdd = "";
+
+            for (int i = 0; i < countBig; i ++)
+            {
+                piece = "0";
+                pieceForAdd = "0";
+
+                for (int j = i; j < countSmall; j++)
+                {
+                    result.Number[i] += other.Number[j];
+                    break;
+                }
+
+                if (Convert.ToString(result.Number[i]).Length > 4)
+                {
+                    piece = Convert.ToString(result.Number[i]);
+                    pieceForAdd = piece.Substring(0, piece.Length - 4);
+                    piece = piece.Substring(piece.Length - 4);
+
+                    result.Number[i] = int.Parse(piece);
+                    
+                    if (i < countSmall - 1)
+                    {
+                        result.Number[i + 1] += int.Parse(pieceForAdd);
+                    }
+                    else
+                    {
+                        result.Number.Add(int.Parse(pieceForAdd));
+                    }
+                }
+            }
+
+            return result;
+        }
 
         public static BigNumber operator -(BigNumber number)
         {
