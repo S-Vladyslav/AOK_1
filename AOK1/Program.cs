@@ -22,7 +22,7 @@ namespace AOK1
             //}
             Console.WriteLine((bigNum != bigNum2));
 
-            // TODO == and +
+            // TODO +
         }
     }
 }

@@ -7,11 +7,11 @@ namespace AOK1
     {
         private const int _lenght = 4; //length of number piece
 
+        private string _numberPiece = "";
+
         public List<int> Number { get; private set; } = new List<int>();
 
-        public bool NegativeSign { get; set; }
-
-        private string _numberPiece = "";
+        public bool NegativeSign { get; private set; }
 
         public string UnsignedRawNum { get; private set; } = "";
 
@@ -74,7 +74,7 @@ namespace AOK1
             return Number;
         }
 
-        public static BigNumber operator + (BigNumber number)
+        public static BigNumber operator +(BigNumber number)
         {
             return number;
         }
