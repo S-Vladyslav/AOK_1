@@ -66,12 +66,20 @@ namespace AOK1
 
             for (int i = Number.Count - 1; i >= 0; i--)
             {
+                var s = Number[i].ToString();
                 if (Number[i] == 0)
                 {
                     number += "0000";
                 }
                 else
                 {
+                    if (s.Length < 4)
+                    {
+                        for (int j = s.Length; j < 4; j++)
+                        {
+                            number += "0";
+                        }
+                    }
                     number += Convert.ToString(Number[i]);
                 }
             }
@@ -113,7 +121,7 @@ namespace AOK1
             var piece = "";
             var pieceForAdd = "";
 
-            for (int i = 0; i < countBig; i ++)
+            for (int i = 0; i < countBig; i++)
             {
                 piece = "0";
                 pieceForAdd = "0";
@@ -131,7 +139,7 @@ namespace AOK1
                     piece = piece.Substring(piece.Length - 4);
 
                     result.Number[i] = int.Parse(piece);
-                    
+
                     if (i < countSmall - 1)
                     {
                         result.Number[i + 1] += int.Parse(pieceForAdd);
@@ -190,7 +198,7 @@ namespace AOK1
             {
                 if (result > other)
                 {
-                    for (int i = 0; i < other.Number.Count; i ++)
+                    for (int i = 0; i < other.Number.Count; i++)
                     {
                         if (result.Number[i] - other.Number[i] >= 0)
                         {
