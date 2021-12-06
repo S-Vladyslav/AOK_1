@@ -66,7 +66,14 @@ namespace AOK1
 
             for (int i = Number.Count - 1; i >= 0; i--)
             {
-                number += Convert.ToString(Number[i]);
+                if (Number[i] == 0)
+                {
+                    number += "0000";
+                }
+                else
+                {
+                    number += Convert.ToString(Number[i]);
+                }
             }
 
             return number;
@@ -137,7 +144,7 @@ namespace AOK1
             }
 
             return result;
-        }
+        } // only for numbers > 0
 
         public static BigNumber operator -(BigNumber number)
         {
@@ -147,12 +154,65 @@ namespace AOK1
 
         public static BigNumber operator -(BigNumber a, BigNumber b)
         {
-            if (a.NegativeSign = false && b.NegativeSign == true)
-            {
-                return a + (-b);
-            }
+            var countRes = a.Number.Count;
+            var countOth = b.Number.Count;
+            BigNumber result = new BigNumber(a.RawNum);
+            BigNumber other = new BigNumber(b.RawNum);
 
-            return a + (-b);
+            if (result == other)
+            {
+                if (result.NegativeSign == false)
+                {
+                    return new BigNumber("0");
+                }
+                if (result.NegativeSign == true)
+                {
+                    return -(new BigNumber(result.UnsignedRawNum) + new BigNumber(other.UnsignedRawNum));
+                }
+            } // a == b -> if sign = + then 0 | if sign = - then - (a + b)
+
+            if (result.NegativeSign == false && other.NegativeSign == true)
+            {
+                return result + (-other);
+            } // a > 0, b < 0 -> a + (-b) then a,b > 0
+
+            if (result.NegativeSign == true && other.NegativeSign == false)
+            {
+                return -(new BigNumber(result.UnsignedRawNum) + new BigNumber(other.UnsignedRawNum));
+            } // a < 0, b > 0 -> -(a + b) where a,b > 0
+
+            if (result.NegativeSign == true && other.NegativeSign == true)
+            {
+                return -(new BigNumber(result.UnsignedRawNum) - new BigNumber(other.UnsignedRawNum));
+            } // a < 0, b < 0 -> -(+a - +b) where  a,b > 0    ??????????
+
+            if (result.NegativeSign == false && other.NegativeSign == false)
+            {
+                if (result > other)
+                {
+                    for (int i = 0; i < other.Number.Count; i ++)
+                    {
+                        if (result.Number[i] - other.Number[i] >= 0)
+                        {
+                            result.Number[i] -= other.Number[i];
+                        }
+                        else
+                        {
+                            result.Number[i + 1] -= 1;
+                            result.Number[i] += 10000;
+                            result.Number[i] -= other.Number[i];
+                        }
+                    }
+
+                    return result;
+                } // HERE a > b
+                if (result < other)
+                {
+                    return -(new BigNumber(other.UnsignedRawNum) - new BigNumber(result.UnsignedRawNum));
+                } // a < b then -(b - a)
+            }// EVERYTHING COMES HERE(or to +) a > 0, b > 0 -> a - b
+
+            return result;
         }
 
         public static bool operator <(BigNumber a, BigNumber b)
@@ -169,24 +229,20 @@ namespace AOK1
             if (a.UnsignedRawNum.Length < b.UnsignedRawNum.Length)
             {
                 return (a.NegativeSign == true && b.NegativeSign == true) ? false : true;
+                //return false;
             }
             else if (a.UnsignedRawNum.Length > b.UnsignedRawNum.Length)
             {
                 return (a.NegativeSign == true && b.NegativeSign == true) ? true : false;
+                //return true;
             }
-
-            var count = 0;
 
             if (a.Number.Count < b.Number.Count)
             {
-                count = a.Number.Count;
-            }
-            else
-            {
-                count = b.Number.Count;
+                return true;
             }
 
-            for (int i = 0; i < count; i++)
+            for (int i = b.Number.Count - 1; i >= 0; i--)
             {
                 if (a.Number[i] < b.Number[i])
                 {
@@ -199,26 +255,24 @@ namespace AOK1
 
         public static bool operator >(BigNumber a, BigNumber b)
         {
-            var count = 0;
-
             if (a.Number.Count < b.Number.Count)
             {
-                count = a.Number.Count;
+                return false;
             }
-            else
+            else if (a.Number.Count > b.Number.Count)
             {
-                count = b.Number.Count;
+                return true;
             }
 
-            for (int i = 0; i < count; i++)
+            for (int i = a.Number.Count - 1; i >= 0; i--)
             {
-                if (a.Number[i] == b.Number[i])
+                if (a.Number[i] > b.Number[i])
                 {
-                    return false;
+                    return true;
                 }
             }
 
-            return (a < b) ? false : true;
+            return false;
         }
 
         public static bool operator ==(BigNumber a, BigNumber b)
